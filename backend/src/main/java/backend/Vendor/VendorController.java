@@ -19,7 +19,7 @@ public class VendorController {
     @GetMapping("/")
     public ResponseEntity<String> home() {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return vendorService.getVendorByUsername(username).map(vendor -> ResponseEntity.ok("Vendor is <" + vendor + ">."))
+        return vendorService.getVendorByUsername(username).map(vendor -> ResponseEntity.ok("Vendor is <" + vendor.toString() + ">."))
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -32,7 +32,7 @@ public class VendorController {
             return ResponseEntity.ok("Vendor <"+ vendor.getUsername() +"> updated successfully");
         }
 
-        return ResponseEntity.badRequest().body(isValidated ? "Username or business name is already taken!" : "Invalid username or business name or password!");
+        return ResponseEntity.badRequest().body(isValidated ? "Username or business name is already taken!" : "Invalid details supplied!");
     }
 
     @PostMapping("/delete/{id}")

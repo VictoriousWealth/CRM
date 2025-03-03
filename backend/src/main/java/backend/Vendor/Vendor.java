@@ -37,4 +37,17 @@ public class Vendor extends User {
 
     public String getBusinessAddress() { return businessAddress; }
     public void setBusinessAddress(String businessAddress) { this.businessAddress = businessAddress; }
+
+    @Override
+    public String toString() {
+        return "Vendor{" +
+                "id=" + getId() +
+                ", email='" + getEmail() + '\'' +
+                ", password='" + "***********" + '\'' +
+                ", role=" + getRoles().toString() +
+                ", isDeleted=" + isDeleted() +
+                ", businessName='" + businessName + '\'' +
+                ", businessAddress='" + businessAddress + '\'' +
+                '}';
+    }
 }

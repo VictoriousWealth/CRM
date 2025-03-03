@@ -82,4 +82,15 @@ public class User {
     public void setIsDeleted(boolean deleted) {
         this.isDeleted = deleted;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", isDeleted=" + isDeleted +
+                '}';
+    }
 }
