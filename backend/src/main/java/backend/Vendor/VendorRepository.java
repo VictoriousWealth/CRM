@@ -11,4 +11,6 @@ public interface VendorRepository extends JpaRepository<Vendor, Long> {
     public Optional<Vendor> findByBusinessName(String businessName);
 
     Optional<Vendor> findVendorById(Long id);
+
+    Optional<Vendor> findVendorByEmail(String email);
 }

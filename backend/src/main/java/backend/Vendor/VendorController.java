@@ -10,7 +10,6 @@ import java.util.Optional;
 @RequestMapping("/vendor")
 public class VendorController {
 
-    public static final String USERNAME = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     private final VendorService vendorService;
 
     public VendorController(VendorService vendorService) {
@@ -19,17 +18,12 @@ public class VendorController {
 
     @GetMapping("/")
     public ResponseEntity<String> home() {
-        return ResponseEntity.ok("Hello " + USERNAME + "!");
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return vendorService.getVendorByUsername(username).map(vendor -> ResponseEntity.ok("Vendor is <" + vendor + ">."))
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<String> getVendor(@PathVariable Long id) {
-        Optional<Vendor> isVendorPresent = vendorService.getVendorById(id);
-        return isVendorPresent.map(vendor -> ResponseEntity.ok("Vendor is <" + vendor + ">."))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping("/{id}")
+    @PostMapping("/update/{id}")
     public ResponseEntity<String> update(@PathVariable Long id, @RequestBody VendorDTO vendor) {
         boolean isValidated = vendorService.validate(vendor);
         boolean valid = isValidated && vendorService.available(vendor);
@@ -41,7 +35,7 @@ public class VendorController {
         return ResponseEntity.badRequest().body(isValidated ? "Username or business name is already taken!" : "Invalid username or business name or password!");
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public ResponseEntity<String> deleteVendor(@PathVariable Long id) {
         vendorService.delete(id);
         return ResponseEntity.ok("Vendor deleted successfully");

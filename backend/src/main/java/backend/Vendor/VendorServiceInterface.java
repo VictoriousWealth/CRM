@@ -35,5 +35,13 @@ public interface VendorServiceInterface {
      */
     Optional<Vendor> getVendorById(Long id);
 
+    /**
+     * @param id the id of the vendor to delete
+     * */
     boolean delete(Long id);
+
+    /**
+     * @param username the username of the vendor to return
+     * */
+    Optional<Vendor> getVendorByUsername(String username);
 }

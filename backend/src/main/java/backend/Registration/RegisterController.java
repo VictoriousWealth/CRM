@@ -27,6 +27,7 @@ public class RegisterController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserDTO user) {
+
         boolean isValidated = userService.validate(user);
         boolean valid = isValidated && userService.available(user);
 
@@ -34,10 +35,10 @@ public class RegisterController {
             return ResponseEntity.ok("User <"+ user.getUsername() +"> registered successfully");
         }
 
-        return ResponseEntity.badRequest().body(isValidated ? "Username is already taken!" : "Invalid username or password!");
+        return ResponseEntity.badRequest().body(isValidated ? "Username is already taken!" : "Invalid details provided!");
     }
 
-    @PostMapping("/vendor/register")
+    @PostMapping("/register/vendor")
     public ResponseEntity<String> registerVendor(@RequestBody VendorDTO vendor) {
         boolean isValidated = vendorService.validate(vendor);
         boolean valid = isValidated && vendorService.available(vendor);
@@ -47,7 +48,7 @@ public class RegisterController {
         }
 
         return ResponseEntity.badRequest().body(isValidated ? "Username or business name is already taken!" :
-                "Invalid username or business name or password!");
+                "Invalid details provided!");
     }
 
 

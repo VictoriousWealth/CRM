@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class VendorService implements VendorServiceInterface{
+public class VendorService implements VendorServiceInterface {
 
     private final UserService userService;
     private final UserRepository userRepository;
@@ -30,15 +30,15 @@ public class VendorService implements VendorServiceInterface{
                 !vendor.getBusinessName().isBlank() &&
                 !vendor.getBusinessAddress().isBlank()
                 ;
-        return userService.validate(vendor) && isValid;
+        return userService.validate(vendor) && isValid &&
+                vendor.getRole().equals(Role.VENDOR.getName());
     }
 
     @Override
     public boolean available(VendorDTO vendor) {
         return
                 userRepository.findByEmail(vendor.getUsername()).isEmpty() &&
-                vendorRepository.findByBusinessName(vendor.getBusinessName()).isEmpty() &&
-                vendor.getRole().equals(Role.VENDOR.getName());
+                vendorRepository.findByBusinessName(vendor.getBusinessName()).isEmpty();
     }
 
     @Override
@@ -78,5 +78,10 @@ public class VendorService implements VendorServiceInterface{
             vendorRepository.save(vendor);
             return true;
         }).orElse(false);
+    }
+
+    @Override
+    public Optional<Vendor> getVendorByUsername(String username) {
+        return vendorRepository.findVendorByEmail(username);
     }
 }
