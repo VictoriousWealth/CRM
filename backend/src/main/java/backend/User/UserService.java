@@ -21,10 +21,6 @@ public class UserService implements UserServiceInterface {
                 user.getPassword() != null &&
                 user.getRole() != null &&
 
-                !user.getUsername().isEmpty() &&
-                !user.getPassword().isEmpty() &&
-                !user.getRole().isEmpty() &&
-
                 !user.getUsername().isBlank() &&
                 !user.getPassword().isBlank() &&
                 !user.getRole().isBlank() &&

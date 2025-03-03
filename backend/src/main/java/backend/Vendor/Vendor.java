@@ -19,8 +19,14 @@ public class Vendor extends User {
 
     public Vendor() {}
 
-    public Vendor(String username, String email, String businessName, String businessAddress) {
-        super(username, email, Role.VENDOR);
+    public Vendor(String email, String password, String businessName, String businessAddress) {
+        super(email, password, Role.VENDOR);
+        this.businessName = businessName;
+        this.businessAddress = businessAddress;
+    }
+
+    public Vendor(Long id, String email, String password, String businessName, String businessAddress) {
+        super(id, email, password, Role.VENDOR);
         this.businessName = businessName;
         this.businessAddress = businessAddress;
     }
