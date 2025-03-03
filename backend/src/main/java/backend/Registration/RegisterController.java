@@ -1,5 +1,7 @@
 package backend.Registration;
 
+import backend.Customer.CustomerDTO;
+import backend.Customer.CustomerService;
 import backend.User.Role;
 import backend.User.User;
 import backend.User.UserRepository;
@@ -19,10 +21,12 @@ public class RegisterController {
 
     private final UserService userService;
     private final VendorService vendorService;
+    private final CustomerService customerService;
 
-    public RegisterController(UserService userService, VendorService vendorService) {
+    public RegisterController(UserService userService, VendorService vendorService, CustomerService customerService) {
         this.userService = userService;
         this.vendorService = vendorService;
+        this.customerService = customerService;
     }
 
     @PostMapping("/register")
@@ -45,6 +49,19 @@ public class RegisterController {
 
         if (valid && vendorService.register(vendor)) {
             return ResponseEntity.ok("Vendor <"+ vendor.getUsername() +"> registered successfully");
+        }
+
+        return ResponseEntity.badRequest().body(isValidated ? "Username or business name is already taken!" :
+                "Invalid details provided!");
+    }
+
+    @PostMapping("/register/customer")
+    public ResponseEntity<String> registerCustomer(@RequestBody CustomerDTO customer) {
+        boolean isValidated = customerService.validate(customer);
+        boolean valid = isValidated && customerService.available(customer);
+
+        if (valid && customerService.register(customer)) {
+            return ResponseEntity.ok("Customer <"+ customer.getUsername() +"> registered successfully");
         }
 
         return ResponseEntity.badRequest().body(isValidated ? "Username or business name is already taken!" :

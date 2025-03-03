@@ -16,7 +16,14 @@ public class Customer extends User {
     public Customer() {}
 
     public Customer(String username, String email, String firstName, String middleName, String lastName) {
-        super(username, email, Role.VENDOR);
+        super(username, email, Role.CUSTOMER);
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+    }
+
+    public Customer(Long id, String username, String email, String firstName, String middleName, String lastName) {
+        super(id, username, email, Role.CUSTOMER);
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -46,5 +53,19 @@ public class Customer extends User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + getId() +
+                ", email='" + getEmail() + '\'' +
+                ", password='" + "***********" + '\'' +
+                ", role=" + getRoles().toString() +
+                ", isDeleted=" + isDeleted() +
+                ", firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 }

@@ -19,7 +19,7 @@ public class VendorController {
     @GetMapping("/")
     public ResponseEntity<String> home() {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return vendorService.getVendorByUsername(username).map(vendor -> ResponseEntity.ok("Vendor is <" + vendor.toString() + ">."))
+        return vendorService.getVendorByUsername(username).map(vendor -> ResponseEntity.ok("Vendor is <" + vendor + ">."))
                 .orElse(ResponseEntity.notFound().build());
     }
 

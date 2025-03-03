@@ -26,7 +26,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    public static String[] openEndUrls = {"/", "/favicon.ico", "/error", "/login", "/register", "/register/vendor"};
+    public static String[] openEndUrls = {"/", "/favicon.ico", "/error", "/login", "/register", "/register/vendor", "/register/customer"};
 
     private final CustomProvider customJwtAuthenticationProvider;
 
