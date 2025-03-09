@@ -52,7 +52,15 @@ public class RegisterController {
         }
 
         return ResponseEntity.badRequest().body(isValidated ? "Username or business name is already taken!" :
-                "Invalid details provided!");
+                """
+                        Invalid details provided!
+                        
+                        Please provide the following:
+                        username,
+                        password,
+                        business name,
+                        business address"""
+        );
     }
 
     @PostMapping("/register/customer")
@@ -61,11 +69,19 @@ public class RegisterController {
         boolean valid = isValidated && customerService.available(customer);
 
         if (valid && customerService.register(customer)) {
-            return ResponseEntity.ok("Customer <"+ customer.getUsername() +"> registered successfully");
+            return ResponseEntity.ok("Customer <"+ customer.getUsername() +"> registered successfully\n");
         }
 
-        return ResponseEntity.badRequest().body(isValidated ? "Username or business name is already taken!" :
-                "Invalid details provided!");
+        return ResponseEntity.badRequest().body(isValidated ? "Username or business name is already taken!\n" :
+                """
+                        Invalid details provided!\
+                        
+                        Please provide the following:
+                        username,
+                        password,
+                        first name,
+                        middle name,
+                        last name\n""");
     }
 
 }

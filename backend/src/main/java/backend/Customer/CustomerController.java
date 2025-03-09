@@ -13,6 +13,9 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    /**
+     * This our read method
+     * */
     @GetMapping("/")
     public ResponseEntity<String> home() {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

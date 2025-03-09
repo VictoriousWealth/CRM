@@ -1,9 +1,11 @@
 package backend.Registration;
 
 public class UserDTO {
+
     private String username;
     private String password;
     private String role;
+
     public UserDTO(String username, String password, String role) {
         this.username = username;
         this.password = password;
