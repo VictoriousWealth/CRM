@@ -36,10 +36,10 @@ public class RegisterController {
         boolean valid = isValidated && userService.available(user);
 
         if (valid && userService.register(user)) {
-            return ResponseEntity.ok("User <"+ user.getUsername() +"> registered successfully");
+            return ResponseEntity.ok("User <"+ user.getUsername() +"> registered successfully\n");
         }
 
-        return ResponseEntity.badRequest().body(isValidated ? "Username is already taken!" : "Invalid details provided!");
+        return ResponseEntity.badRequest().body(isValidated ? "Username is already taken!\n" : "Invalid details provided!\n");
     }
 
     @PostMapping("/register/vendor")
@@ -48,10 +48,10 @@ public class RegisterController {
         boolean valid = isValidated && vendorService.available(vendor);
 
         if (valid && vendorService.register(vendor)) {
-            return ResponseEntity.ok("Vendor <"+ vendor.getUsername() +"> registered successfully");
+            return ResponseEntity.ok("Vendor <"+ vendor.getUsername() +"> registered successfully\n");
         }
 
-        return ResponseEntity.badRequest().body(isValidated ? "Username or business name is already taken!" :
+        return ResponseEntity.badRequest().body(isValidated ? "Username or business name is already taken!\n" :
                 """
                         Invalid details provided!
                         
@@ -59,7 +59,8 @@ public class RegisterController {
                         username,
                         password,
                         business name,
-                        business address"""
+                        business address
+                        """
         );
     }
 
@@ -72,7 +73,7 @@ public class RegisterController {
             return ResponseEntity.ok("Customer <"+ customer.getUsername() +"> registered successfully\n");
         }
 
-        return ResponseEntity.badRequest().body(isValidated ? "Username or business name is already taken!\n" :
+        return ResponseEntity.badRequest().body(isValidated ? "Username is already taken!\n" :
                 """
                         Invalid details provided!\
                         
@@ -81,7 +82,8 @@ public class RegisterController {
                         password,
                         first name,
                         middle name,
-                        last name\n""");
+                        last name
+                        """);
     }
 
 }

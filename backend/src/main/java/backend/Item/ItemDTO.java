@@ -10,22 +10,21 @@ public class ItemDTO {
     private Long vendorId;
 
     public ItemDTO(String name, String description, Integer stockCount, Long vendorId) {
-
-        assert name != null;
-        assert description != null;
-        assert stockCount != null;
-        assert vendorId != null;
-
-        assert !name.isBlank();
-        assert !description.isBlank();
-
-
         this.name = name;
         this.description = description;
         this.stockCount = stockCount;
         this.vendorId = vendorId;
     }
 
+    public boolean isValid() {
+        return name != null
+                && description != null
+                && stockCount != null
+                && vendorId != null
+                && !name.isBlank()
+                && !description.isBlank();
+
+    }
 
     public Long getVendorId() {
         return vendorId;

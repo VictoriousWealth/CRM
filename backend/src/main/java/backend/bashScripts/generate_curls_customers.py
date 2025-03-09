@@ -25,15 +25,16 @@ def generate_curl_command(index):
     return curl_command
 
 def main():
-    num_commands = 451+(1000-460) #how many more do u need
+    start = 1
+    num_commands = start+(10_000-48) #how many more do u need
     output_file = "register_customers.sh"
 
     with open(output_file, "w") as f:
         f.write("#!/bin/bash\n\n")
-        for i in range(451, num_commands + 1):
+        for i in range(start, num_commands + 1):
             f.write(generate_curl_command(i) + "\n")
 
-    print(f"{num_commands} cURL commands saved to {output_file}")
+    print(f"{num_commands-start} cURL commands saved to {output_file}")
 
 if __name__ == "__main__":
     main()
