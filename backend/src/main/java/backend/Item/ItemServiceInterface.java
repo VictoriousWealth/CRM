@@ -2,7 +2,11 @@ package backend.Item;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public interface ItemServiceInterface {
-    boolean create(ItemDTO item);
+    Item create(ItemDTO item);
+
+    Optional<Item> findById(Long id);
 }

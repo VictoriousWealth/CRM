@@ -3,6 +3,8 @@ package backend.Item;
 import backend.Vendor.VendorService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ItemService implements ItemServiceInterface {
 
@@ -15,17 +17,22 @@ public class ItemService implements ItemServiceInterface {
     }
 
     @Override
-    public boolean create(ItemDTO item) {
+    public Item create(ItemDTO item) {
         Item newItem = new Item();
         newItem.setName(item.getName());
         newItem.setDescription(item.getDescription());
         newItem.setStockCount(item.getStockCount());
         newItem.setVendor(vendorService.getVendorById(item.getVendorId()).orElse(null));
         if (newItem.getVendor() == null) {
-            return false;
+            return newItem;
         }
 
         itemRepository.save(newItem);
-        return true;
+        return newItem;
+    }
+
+    @Override
+    public Optional<Item> findById(Long id) {
+        return itemRepository.findById(id);
     }
 }

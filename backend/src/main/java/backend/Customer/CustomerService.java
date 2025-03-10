@@ -38,8 +38,14 @@ public class CustomerService implements CustomerServiceInterface {
 
     @Override
     public boolean available(CustomerDTO customer) {
-        assert customer != null;
+        if (customer == null) return false;
         return userRepository.findByEmail(customer.getUsername()).isEmpty();
+    }
+
+    @Override
+    public boolean available(CustomerDTO customer, Long userId) {
+        if (customer == null) return false;
+        return userRepository.findByEmail(customer.getUsername()).isEmpty() || userRepository.findByEmail(customer.getUsername()).get().getId().equals(userId);
     }
 
     @Override
@@ -57,8 +63,10 @@ public class CustomerService implements CustomerServiceInterface {
     }
 
     @Override
-    public boolean update(Long id, CustomerDTO customer) {
-        assert id != null;
+    public Customer update(Long id, CustomerDTO customer) {
+        if (id == null || id <= 0 || customer == null) {
+            return null;
+        }
         Customer actualcustomer = new Customer(id, customer.getUsername(), customer.getPassword(), customer.getFirstName(), customer.getMiddleName(), customer.getLastName());
         actualcustomer.setId(id);
         actualcustomer.setEmail(customer.getUsername());
@@ -67,7 +75,7 @@ public class CustomerService implements CustomerServiceInterface {
         actualcustomer.setMiddleName(customer.getMiddleName());
         actualcustomer.setLastName(customer.getLastName());
         customerRepository.save(actualcustomer);
-        return true;
+        return actualcustomer;
     }
 
     @Override
@@ -76,12 +84,12 @@ public class CustomerService implements CustomerServiceInterface {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public Customer delete(Long id) {
         return customerRepository.findCustomerById(id).map(customer -> {
             customer.setIsDeleted(true);
             customerRepository.save(customer);
-            return true;
-        }).orElse(false);
+            return customer;
+        }).orElse(null);
     }
 
     @Override

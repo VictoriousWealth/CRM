@@ -4,10 +4,9 @@ package backend.Item;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/vendor/item")
@@ -22,7 +21,7 @@ public class ItemController {
      * This is our create
      *
      * */
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity<String> createItem(@RequestBody ItemDTO itemDTO) {
         if (!itemDTO.isValid()) {
             return ResponseEntity.badRequest().body("""
@@ -36,7 +35,8 @@ public class ItemController {
         }
 
 
-        if (!itemService.create(itemDTO)) {
+        Item item = itemService.create(itemDTO);
+        if (item == null) {
             return ResponseEntity.badRequest().body(
                     """
                             \nInvalid Item
@@ -52,12 +52,17 @@ public class ItemController {
             );
         }
 
-        return ResponseEntity.ok("Item <"+itemDTO+"> created successfully!\n");
+        return ResponseEntity.ok("Item with id: <"+item.getId()+"> created successfully!\n");
     }
 
     /**
      * This is our read
      * */
+    @GetMapping("{id}")
+    public ResponseEntity<Item> getItem(@PathVariable Long id) {
+        Optional<Item> item = itemService.findById(id);
+       return item.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     /**
      * This is our update
