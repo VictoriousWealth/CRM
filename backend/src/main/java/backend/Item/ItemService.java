@@ -3,6 +3,8 @@ package backend.Item;
 import backend.Vendor.VendorService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -24,9 +26,18 @@ public class ItemService implements ItemServiceInterface {
         newItem.setStockCount(item.getStockCount());
         newItem.setVendor(vendorService.getVendorById(item.getVendorId()).orElse(null));
         if (newItem.getVendor() == null) {
-            return newItem;
+            return null;
         }
-
+        List<Item> list = itemRepository.findByVendor_Id(newItem.getVendor().getId());
+        for (Item i : list) {
+            if (i.getName().equals(newItem.getName())) {
+                if (i.getDescription().equals(newItem.getDescription())) {
+                    if (Objects.equals(i.getStockCount(), newItem.getStockCount())) {
+                        return null;
+                    }
+                }
+            }
+        }
         itemRepository.save(newItem);
         return newItem;
     }
@@ -35,4 +46,38 @@ public class ItemService implements ItemServiceInterface {
     public Optional<Item> findById(Long id) {
         return itemRepository.findById(id);
     }
+
+    @Override
+    public Item update(ItemDTO itemDTO, Long id) {
+        Item item = itemRepository.findById(id).orElse(null);
+        if (item == null) return null;
+
+        item.setName(itemDTO.getName());
+        item.setDescription(itemDTO.getDescription());
+        item.setStockCount(itemDTO.getStockCount());
+        item.setVendor(vendorService.getVendorById(itemDTO.getVendorId()).orElse(null));
+
+        if (item.getVendor() == null) return null;
+
+        List<Item> list = itemRepository.findByVendor_Id(item.getVendor().getId());
+        for (Item i : list) {
+            if (i.getName().equals(item.getName())) {
+                if (i.getDescription().equals(item.getDescription())) {
+                    if (Objects.equals(i.getStockCount(), item.getStockCount())) {
+                        return null;
+                    }
+                }
+            }
+        }
+
+        itemRepository.save(item);
+        return item;
+    }
+
+    @Override
+    public void delete(Long id) {
+        itemRepository.deleteById(id);
+    }
+
+
 }
