@@ -60,14 +60,11 @@ public class ItemService implements ItemServiceInterface {
         if (item.getVendor() == null) return null;
 
         List<Item> list = itemRepository.findByVendor_Id(item.getVendor().getId());
-        for (Item i : list) {
-            if (i.getName().equals(item.getName())) {
-                if (i.getDescription().equals(item.getDescription())) {
-                    if (Objects.equals(i.getStockCount(), item.getStockCount())) {
-                        return null;
-                    }
-                }
-            }
+        if (list.contains(item)) {
+            System.out.printf("Item %s is already in the list\n", item.getName());
+            System.out.printf("Number of items in the list: %d\n", list.size());
+            System.out.printf("List items: %s\n", list.toString());
+            return null;
         }
 
         itemRepository.save(item);

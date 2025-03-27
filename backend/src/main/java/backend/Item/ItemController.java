@@ -38,7 +38,7 @@ public class ItemController {
             return ResponseEntity.badRequest().body(
                     """
                             \nInvalid Item
-                            Seems like vendorId is non-existent
+                            Seems like vendorId is non-existent or item already exists
                             
                             Make sure the following fields are valid and present
                             name,
@@ -84,7 +84,7 @@ public class ItemController {
             return ResponseEntity.badRequest().body(
                     """
                             \nInvalid Item details
-                            Seems like vendorId or itemId is non-existent
+                            Seems like vendorId or itemId is non-existent or item already exists
                             
                             Also make sure the following fields are valid and present
                             name,
@@ -96,7 +96,7 @@ public class ItemController {
             );
         }
 
-        return ResponseEntity.ok("Item with id: <"+item.getId()+"> created successfully!\n");
+        return ResponseEntity.ok("Item with id: <"+item.getId()+"> updated successfully!\n");
     }
 
 
